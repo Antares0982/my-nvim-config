@@ -3,7 +3,9 @@
       "neovim/nvim-lspconfig",                                                                                   
       opts = {    
         servers = {
-          clangd = {},
+          clangd = {
+            cmd = { "clangd", "--header-insertion=never" },
+          },
           basedpyright = {},                                                                                     
         },
       },                                                                                                         
