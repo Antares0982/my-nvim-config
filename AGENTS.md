@@ -4,8 +4,6 @@ This is a **Neovim configuration repo** (not a software project). There is no `n
 
 **Important:** This directory is symlinked to `~/.config/nvim/`. Always read/write files here directly — do NOT navigate to `~/.config/nvim/` to read files, as they are the same files.
 
-**Important:** If you need to read anything under `~/.local/share/nvim/`, first check whether `./local-share-nvim` already points there (it should be a symlink). If it doesn't exist, create it with `ln -s ~/.local/share/nvim local-share-nvim`, then read through the symlink.
-
 ## Architecture
 
 - Entrypoint: `init.lua` → `require("config.lazy")` → `lua/config/lazy.lua`
