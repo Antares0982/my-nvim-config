@@ -250,13 +250,55 @@ return {
       end
     end,
     keys = {
-      { "<leader>dB", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-      { "<F5>", function() require("dap").continue() end, desc = "Continue" },
-      { "<F10>", function() require("dap").step_over() end, desc = "Step Over" },
-      { "<F11>", function() require("dap").step_into() end, desc = "Step Into" },
-      { "<F12>", function() require("dap").step_out() end, desc = "Step Out" },
-      { "<leader>dr", function() require("dap").repl.open() end, desc = "Open REPL" },
-      { "<leader>du", function() require("dapui").toggle() end, desc = "Toggle DAP UI" },
+      {
+        "<leader>dB",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "Toggle Breakpoint",
+      },
+      {
+        "<F5>",
+        function()
+          require("dap").continue()
+        end,
+        desc = "Continue",
+      },
+      {
+        "<F10>",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "Step Over",
+      },
+      {
+        "<F11>",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "Step Into",
+      },
+      {
+        "<F12>",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "Step Out",
+      },
+      {
+        "<leader>dr",
+        function()
+          require("dap").repl.open()
+        end,
+        desc = "Open REPL",
+      },
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle()
+        end,
+        desc = "Toggle DAP UI",
+      },
       {
         "<leader>dg",
         function()
@@ -271,25 +313,51 @@ return {
         end,
         desc = "Toggle Stepping Granularity (line/instruction)",
       },
-      { "<S-F10>", function() require("dap").step_over({ steppingGranularity = "instruction" }) end, desc = "Step Over (instruction)" },
-      { "<S-F11>", function() require("dap").step_into({ steppingGranularity = "instruction" }) end, desc = "Step Into (instruction)" },
-      { "<S-F12>", function() require("dap").step_out({ steppingGranularity = "instruction" }) end, desc = "Step Out (instruction)" },
-      { "<leader>da", function()
-        local win = package.loaded.dap_disasm_win
-        if win and vim.api.nvim_win_is_valid(win) then
-          vim.api.nvim_win_close(win, true)
-          package.loaded.dap_disasm_win = nil
-        else
-          package.loaded.dap_disasm_show()
-        end
-      end, desc = "Toggle Disassembly" },
-      { "<leader>dq", function()
-        local win = package.loaded.dap_disasm_win
-        if win and vim.api.nvim_win_is_valid(win) then
-          vim.api.nvim_win_close(win, true)
-          package.loaded.dap_disasm_win = nil
-        end
-      end, desc = "Close Disassembly" },
+      {
+        "<S-F10>",
+        function()
+          require("dap").step_over({ steppingGranularity = "instruction" })
+        end,
+        desc = "Step Over (instruction)",
+      },
+      {
+        "<S-F11>",
+        function()
+          require("dap").step_into({ steppingGranularity = "instruction" })
+        end,
+        desc = "Step Into (instruction)",
+      },
+      {
+        "<S-F12>",
+        function()
+          require("dap").step_out({ steppingGranularity = "instruction" })
+        end,
+        desc = "Step Out (instruction)",
+      },
+      {
+        "<leader>da",
+        function()
+          local win = package.loaded.dap_disasm_win
+          if win and vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_close(win, true)
+            package.loaded.dap_disasm_win = nil
+          else
+            package.loaded.dap_disasm_show()
+          end
+        end,
+        desc = "Toggle Disassembly",
+      },
+      {
+        "<leader>dq",
+        function()
+          local win = package.loaded.dap_disasm_win
+          if win and vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_close(win, true)
+            package.loaded.dap_disasm_win = nil
+          end
+        end,
+        desc = "Close Disassembly",
+      },
     },
   },
 }
