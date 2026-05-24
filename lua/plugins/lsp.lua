@@ -1,6 +1,10 @@
 return {
   {
     "neovim/nvim-lspconfig",
+    -- Must be non-lazy in Neovim 0.12 otherwise LSP configs (cmd, filetypes)
+    -- from nvim-lspconfig are never registered, causing "cmd: expected table, got nil"
+    -- https://github.com/neovim/nvim-lspconfig/issues/4388
+    lazy = false,
     opts = {
       servers = {
         clangd = {
@@ -14,7 +18,10 @@ return {
             "--fallback-style=llvm",
           },
         },
-        basedpyright = {},
+        pyright = {
+          cmd = { "pyright-langserver", "--stdio" },
+          filetypes = { "python" },
+        },
       },
     },
   },
