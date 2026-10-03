@@ -1,17 +1,7 @@
 return {
   "saghen/blink.cmp",
-  opts = {
-    keymap = {
-      ["<Tab>"] = {
-        function(cmp)
-          if cmp.snippet_active() then
-            return cmp.accept()
-          end
-          return cmp.select_and_accept()
-        end,
-        "snippet_forward",
-        "fallback",
-      },
-    },
-  },
+  opts = function(_, opts)
+    opts.keymap["<CR>"] = { "fallback" }
+    opts.keymap["<Tab>"] = require("blink.cmp.keymap.presets").get("super-tab")["<Tab>"]
+  end,
 }
