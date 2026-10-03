@@ -7,6 +7,21 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+vim.api.nvim_create_autocmd("ModeChanged", {
+  group = vim.api.nvim_create_augroup("fcitx5_english", { clear = true }),
+  pattern = "i*:[^i]*",
+  callback = function()
+    if #vim.api.nvim_list_uis() == 0 then
+      return
+    end
+    if vim.env.TERM == "xterm-kitty" and vim.api.nvim_ui_send then
+      vim.api.nvim_ui_send("\027]1337;SetUserVar=nvim_ime=b2Zm\007")
+    elseif not (vim.env.SSH_CONNECTION or vim.env.SSH_TTY) and vim.fn.executable("fcitx5-remote") == 1 then
+      vim.system({ "fcitx5-remote", "-c" }, { timeout = 1000 })
+    end
+  end,
+})
+
 -- Pre-register LSP server configs.
 -- Needed because Neovim 0.12's built-in :lsp command causes nvim-lspconfig
 -- to skip its own init, so default configs (cmd, filetypes, etc.) are
