@@ -3,3 +3,4 @@
 -- Add any additional options here
 
 vim.opt.shell = vim.fn.executable("zsh") == 1 and "zsh" or "bash"
+vim.opt.wrap = true
