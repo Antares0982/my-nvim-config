@@ -125,6 +125,65 @@ local ok, err = xpcall(function()
   for _, match in ipairs(matches) do
     assert(vim.tbl_contains(kept, vim.api.nvim_buf_get_name(match.bufnr):sub(#root + 2)))
   end
+
+  for _, source in ipairs({ "grep", "grep_word" }) do
+    local ranked = {}
+    for _, case in ipairs({
+      { "needle", true, "needle", 1 },
+      { "needle", true, "(needle)", 1 },
+      { "needle", true, "NEEDLE", 1 },
+      { "needle", true, "needles", 0 },
+      { "needle", true, "my_needle", 0 },
+      { "needle", true, "needle2", 0 },
+      { "needle", true, "中文needle", 0 },
+      { "needle", true, "needle中文", 0 },
+      { "needle", true, "needleneedle", 0 },
+      { "needles?", true, "(needles)", 1 },
+      { "a.b", false, "(a.b)", 1 },
+      { "a.b", false, "a.b_suffix", 0 },
+    }) do
+      write("ranking.txt", case[3] .. "\n")
+      local opts = Snacks.picker.config.get({
+        source = source,
+        cwd = root,
+        dirs = { root .. "/ranking.txt" },
+        regex = case[2],
+      })
+      assert(opts.matcher.sort_empty, source .. " must sort without a filter")
+      Snacks.picker.config.finder(opts.finder)(opts, {
+        filter = { search = case[1] },
+        opts = function(_, extra)
+          return vim.tbl_extend("force", opts, extra)
+        end,
+      })
+      local item = { text = run(captured.args):gsub("\n$", ""), idx = #ranked + 1, score = 100 - #ranked }
+      local result
+      local timer = assert(vim.uv.new_timer())
+      timer:start(0, 0, function()
+        result = {
+          pcall(function()
+            assert(vim.in_fast_event())
+            captured.transform(item)
+            opts.transform(item)
+          end),
+        }
+        timer:close()
+      end)
+      assert(
+        vim.wait(1000, function()
+          return result ~= nil
+        end),
+        "search transform timed out"
+      )
+      assert(result[1], result[2])
+      assert(item.whole_word == case[4], source .. ": " .. case[3])
+      ranked[#ranked + 1] = item
+    end
+    table.sort(ranked, Snacks.picker.config.sort(Snacks.picker.config.get({ source = source })))
+    for i = 2, #ranked do
+      assert(ranked[i - 1].whole_word >= ranked[i].whole_word, source .. " must prioritize whole words")
+    end
+  end
 end, debug.traceback)
 vim.fn.delete(root, "rf")
 assert(ok, err)

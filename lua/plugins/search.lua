@@ -40,6 +40,23 @@ local function filter_path(item)
   return not path or not excluded("/" .. path)
 end
 
+local word_end = vim.regex([[\k$]])
+local word_start = vim.regex([[^\k]])
+local grep = {
+  args = rg_args,
+  matcher = { sort_empty = true },
+  sort = { fields = { "whole_word:desc", "score:desc", "#text", "idx" } },
+  transform = function(item)
+    Snacks.picker.util.resolve(item)
+    -- ponytail: first match; expand for per-occurrence ranking.
+    item.whole_word = item.end_pos
+        and not word_end:match_str(item.line:sub(1, item.pos[2]))
+        and not word_start:match_str(item.line:sub(item.end_pos[2] + 1))
+        and 1
+      or 0
+  end,
+}
+
 return {
   {
     "folke/snacks.nvim",
@@ -64,8 +81,8 @@ return {
           recent = { filter = { filter = filter_path } },
           buffers = { filter = { filter = filter_path } },
           smart = vim.tbl_extend("force", files, { filter = { filter = filter_path } }),
-          grep = { args = rg_args },
-          grep_word = { args = rg_args },
+          grep = grep,
+          grep_word = grep,
           grep_buffers = { args = rg_args, filter = { filter = filter_path } },
           git_grep = { finder = "grep", args = rg_args },
           todo_comments = { args = rg_args },
