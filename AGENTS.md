@@ -16,7 +16,7 @@
 
 - 先阅读相关配置并追踪调用方；修复根因，复用已有实现，优先最小修改，不添加推测性功能或抽象。
 - Lua 使用两空格缩进，遵循 `stylua.toml` 的 120 列配置；新增注释块不超过 7 个词，函数名不超过 4 个词。
-- Mason 已禁用，语言服务器、调试器等外部工具由系统或开发环境提供，不擅自恢复 Mason 安装流程。
+- 仅 NixOS 禁用 Mason，外部工具由系统或开发环境提供；其他系统沿用 LazyVim 的 Mason 默认配置。
 - 临时工具可用 `nix shell nixpkgs#<pkg>` 或 `nix run nixpkgs#<pkg>`，禁止使用 `nix-env` 安装。
 - 不直接修改插件安装目录；除非任务涉及依赖更新，不顺带更新锁文件。
 
@@ -28,10 +28,11 @@
 stylua --check init.lua lua tests
 nvim --headless -u NONE -l tests/input-method.lua
 nvim --headless -u NONE -l tests/search.lua
+nvim --headless -u NONE -l tests/startup.lua
 git diff --check
 ```
 
-输入法检查覆盖模式切换、本地 fcitx5、Kitty 信号及 SSH/无界面分支。搜索检查需要 PATH 中的 `rg` 和 Neovim 数据目录中已安装的 `snacks.nvim`、`grug-far.nvim`。
+输入法检查覆盖模式切换、本地 fcitx5、Kitty 信号及 SSH/无界面分支。搜索检查需要 PATH 中的 `rg` 和 Neovim 数据目录中已安装的 `snacks.nvim`、`grug-far.nvim`。启动检查覆盖 NixOS 检测和文件浏览器自动/手动打开，需要已安装的 `snacks.nvim`。
 新增非平凡逻辑时，补充或扩展最小可运行检查；纯文档修改核对内容、文件路径与表格结构即可。
 
 ## 功能文档同步

@@ -10,9 +10,9 @@
 | 离开插入模式时请求关闭输入法：Kitty 发送 `nvim_ime=off` 用户变量信号，由终端侧配合处理；其他本地终端调用 `fcitx5-remote -c`，SSH 中跳过该本地调用，无界面时跳过处理 | [lua/config/autocmds.lua](lua/config/autocmds.lua)、[tests/input-method.lua](tests/input-method.lua) |
 | 启用 C/C++（clangd）、JSON、Nix、Python、Rust、TOML 的 LazyVim 语言扩展 | [lazyvim.json](lazyvim.json) |
 | 配置 clangd 后台索引、clang-tidy、详细补全等选项，以及 Python 的 Pyright；提前注册并按文件类型启用服务器，兼容 Neovim 0.12 的 LSP 加载行为 | [lua/plugins/lsp.lua](lua/plugins/lsp.lua)、[lua/config/autocmds.lua](lua/config/autocmds.lua) |
-| 禁用 Mason、Mason LSP 集成与工具自动安装器，外部工具由系统或开发环境提供 | [lua/plugins/no-mason.lua](lua/plugins/no-mason.lua) |
+| 仅检测到 `/etc/NIXOS` 时禁用 Mason、Mason LSP 集成与工具自动安装器，由系统或开发环境提供外部工具；其他系统沿用 LazyVim 的 Mason 默认配置 | [lua/plugins/no-mason.lua](lua/plugins/no-mason.lua)、[tests/startup.lua](tests/startup.lua) |
 | Blink 补全中回车执行默认回退行为，Tab 使用 `super-tab` 预设映射 | [lua/plugins/blink.lua](lua/plugins/blink.lua) |
-| Snacks 文件浏览器显示隐藏文件与被忽略文件，并沿用共享排除规则 | [lua/plugins/snacks.lua](lua/plugins/snacks.lua)、[lua/plugins/search.lua](lua/plugins/search.lua) |
+| 启动时不自动打开文件浏览器（包括 `nvim .`），关闭 Snacks 目录接管与内置 netrw；仍可用 `<leader>e` / `<leader>E` 手动打开 Snacks，显示隐藏文件与被忽略文件，并沿用共享排除规则 | [lua/plugins/snacks.lua](lua/plugins/snacks.lua)、[lua/config/lazy.lua](lua/config/lazy.lua)、[lua/plugins/search.lua](lua/plugins/search.lua)、[tests/startup.lua](tests/startup.lua) |
 | 文件与内容搜索包含隐藏文件和被忽略文件，统一排除 Git 元数据、Python 缓存/虚拟环境、Rust target、CMakeFiles 等目录；文件搜索保留空文件并排除含 NUL 的文件 | [lua/plugins/search.lua](lua/plugins/search.lua)、[tests/search.lua](tests/search.lua) |
 | 最近文件、缓冲区及智能选择器复用路径排除规则；Git 文件选择器使用文件查找器，默认从 Git 根目录搜索 | [lua/plugins/search.lua](lua/plugins/search.lua)、[tests/search.lua](tests/search.lua) |
 | Grep 与单词搜索优先排列整词匹配，按每条结果的首个匹配判断边界 | [lua/plugins/search.lua](lua/plugins/search.lua)、[tests/search.lua](tests/search.lua) |
