@@ -26,7 +26,6 @@
 | 指令级调试：`<leader>dg` 切换语句/指令粒度，Shift+F10/F11/F12 执行指令级单步；需调试适配器支持 | [lua/plugins/dap.lua](lua/plugins/dap.lua) |
 | 反汇编浮窗显示当前指令附近内容并标记指令位置，停止时自动刷新；`<leader>da` 切换、`<leader>dq` 关闭，需适配器支持反汇编 | [lua/plugins/dap.lua](lua/plugins/dap.lua) |
 | DAP 兼容处理：将 VS Code 风格 `environment` 数组转换为 `env` 对象，并在 Python 适配器可用时注册 `debugpy` 别名 | [lua/plugins/dap.lua](lua/plugins/dap.lua) |
-| Nix 开发环境提供 StyLua 与 Python 3.14，声明支持 x86_64-linux、aarch64-linux、aarch64-darwin；Lua 格式配置为两空格缩进、120 列 | [flake.nix](flake.nix)、[stylua.toml](stylua.toml) |
 | 项目级 Neoconf 配置启用 Neodev 库/插件信息及 Lua LSP 集成 | [.neoconf.json](.neoconf.json) |
 
 `lua/plugins/example.lua` 是未启用的示例，`lua/config/keymaps.lua` 暂无自定义映射；实际快捷键主要定义在对应插件文件中。
